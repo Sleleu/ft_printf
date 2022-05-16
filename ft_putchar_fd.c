@@ -6,13 +6,14 @@
 /*   By: sleleu <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/04 21:51:13 by sleleu            #+#    #+#             */
-/*   Updated: 2022/05/15 19:17:46 by sleleu           ###   ########.fr       */
+/*   Updated: 2022/05/16 14:02:54 by sleleu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-void	ft_putchar_fd(char c, int fd)
+int	ft_putchar_fd(char c, int fd)
 {
 	write(fd, &c, 1);
+	return (1);
 }

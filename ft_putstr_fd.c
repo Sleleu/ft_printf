@@ -6,20 +6,26 @@
 /*   By: sleleu <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/04 21:53:43 by sleleu            #+#    #+#             */
-/*   Updated: 2022/05/15 18:53:02 by sleleu           ###   ########.fr       */
+/*   Updated: 2022/05/16 16:20:18 by sleleu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-void	ft_putstr_fd(char *s, int fd)
+int	ft_putstr_fd(char *s, int fd)
 {
 	int	i;
 
 	i = 0;
+	if (!s)
+	{
+		ft_putstr_fd("(null)", 1);
+		return (6);
+	}
 	while (s[i])
 	{
 		write(fd, &s[i], 1);
 		i++;
 	}
+	return (i);
 }

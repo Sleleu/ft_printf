@@ -6,79 +6,97 @@
 /*   By: sleleu <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/15 15:27:33 by sleleu            #+#    #+#             */
-/*   Updated: 2022/05/15 19:40:22 by sleleu           ###   ########.fr       */
+/*   Updated: 2022/05/16 17:57:07 by sleleu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-static void	ft_putuint(unsigned int nb)
+static int	ft_putuint(unsigned int nb)
 {
 	char	c;
+	int	len;
 
+	len = 0;
 	if (nb > 9)
 	{
-		ft_putuint(nb / 10);
+		len += ft_putuint(nb / 10);
 	}
 	nb = nb % 10;
 	c = nb + '0';
+	len++;
 	ft_putchar_fd(c, 1);
+	return (len);
 }
 
-static void	ft_puthex(unsigned int nb, char c)
+static int	ft_puthex(unsigned int nb, char c)
 {
 	char	*index_1;
 	char	*index_2;
+	int	len;
 
+	len = 0;
 	index_1 = "0123456789abcdef";
 	index_2 = "0123456789ABCDEF";
-	if (nb > 16)
+	if (nb > 15)
 	{
-		ft_puthex(nb / 16, c);
+		len += ft_puthex(nb / 16, c);
 	}
 	nb = nb % 16;
+	len++;
 	if (c == 'x')
 		ft_putchar_fd(index_1[nb], 1);
-	else
+	else if (c == 'X')
 		ft_putchar_fd(index_2[nb], 1);
+	return (len);
 }
 
-static void	ft_putaddr(unsigned long nb)
+static int	ft_putaddr(unsigned long long nb)
 {
 	char	*index;
+	int	len;
 
+	len = 0;
 	index = "0123456789abcdef";
-	if (nb > 16)
+	if (nb == 0)
 	{
-		ft_putaddr(nb / 16);
+		len = ft_putstr_fd(PTR_NULL, 1);
+		return (len);
+	}
+	if (nb > 15)
+	{
+		len += ft_putaddr(nb / 16);
 	}
 	nb = nb % 16;
+	len++;
 	ft_putchar_fd(index[nb], 1);
+	return (len);
 }
 
-void	ft_format(const char *format, va_list args)
+int	ft_format(const char *format, va_list args)
 {
+	int	len;
+	unsigned long long p;
 
+	len = 0;	
 	if (*format == 'd' || *format == 'i')
-		ft_putnbr_fd(va_arg(args, int), 1);
+		len = ft_putnbr_fd(va_arg(args, int), 1);
 	else if (*format == 'u')
-		ft_putuint(va_arg(args, unsigned int));
+		len = ft_putuint(va_arg(args, unsigned int));
 	else if (*format == 'x' || *format == 'X')
-		ft_puthex(va_arg(args, unsigned int), *format);
+		len = ft_puthex(va_arg(args, unsigned int), *format);
 	else if (*format == 'p')
 	{
-		if (va_arg(args, unsigned long) == 0)
-			ft_putstr_fd(PTR_NULL, 1);
-		else
-		{
-			ft_putstr_fd("0x", 1);
-			ft_putaddr(va_arg(args, unsigned long));
-		}
+		p = va_arg(args, unsigned long long);
+			if (p != 0)
+				len = ft_putstr_fd("0x", 1);
+		len += ft_putaddr(p);
 	}
 	else if (*format == 'c')
-		ft_putchar_fd(va_arg(args, int), 1);
+		len = ft_putchar_fd(va_arg(args, int), 1);
 	else if (*format == '%')
-		ft_putchar_fd('%', 1);
+		len = ft_putchar_fd('%', 1);
 	else if (*format == 's')
-		ft_putstr_fd(va_arg(args, char *), 1);
+		len = ft_putstr_fd(va_arg(args, char *), 1);
+	return (len);
 }

@@ -6,7 +6,7 @@
 /*   By: sleleu <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 20:12:10 by sleleu            #+#    #+#             */
-/*   Updated: 2022/05/15 19:44:39 by sleleu           ###   ########.fr       */
+/*   Updated: 2022/05/16 18:04:18 by sleleu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,24 +14,28 @@
 
 int	ft_printf(const char *format, ...)
 {
-	int	len;
+	int		len;
 	va_list	args;
-	
+
 	len = 0;
 	va_start(args, format);
+	if (format[len] == '%' && format[len + 1] == '\0')
+		return (0);
 	while (*format)
 	{
 		if (*format == '%')
 		{
 			format++;
-			ft_format(format++, args);
+			len += ft_format(format++, args);
 		}
 		else
+		{
+			ft_putchar_fd(*format, 1);
+			format++;
 			len++;
+		}
 		if (*format == '\0')
-			break;
-		ft_putchar_fd(*format, 1);
-		format++;
+			break ;
 	}
 	va_end(args);
 	return (len);
@@ -44,8 +48,10 @@ int	main(void)
 	char	*tab = "test";
 	char	*vide = "";
 	char	*null = NULL;
-        printf("char %c int %d str %s uint %u hex %x pointeur %p\n", 'A', 456, "test", -123456, 154878, tab);
-	ft_printf("char %c int %d str %s uint %u hex %x pointeur %p\n", 'A', 456, "test", -123456, 154878, tab);
+        printf("char %c int %d str %s uint %u hex %x pointeur %p\n",
+       	'A', 456, "test", -123456, 1245, &tab);
+	ft_printf("char %c int %d str %s uint %u hex %x pointeur %p\n",
+       	'A', 456, "test", -123456, 1245, &tab);
 
 	printf("test 2 : str vide %s\n", vide);
         ft_printf("test 2 : str vide %s\n", vide);
@@ -53,8 +59,15 @@ int	main(void)
 	printf("%p\n", null);
 
 
-	printf(" %c ", '0');
-	ft_printf(" %c ", '0');
+	//printf(" %c ", '0');
+	//ft_printf(" %c ", '0');
+
+	//int	i = 0;
+	//i = ft_printf("%d, %d", -10, 20);
+	//ft_printf("\n%d", i);
+
+	ft_printf("%");
+	//printf("%");
 	return (0);
 	
 }*/
