@@ -6,7 +6,7 @@
 /*   By: sleleu <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/15 15:27:33 by sleleu            #+#    #+#             */
-/*   Updated: 2022/05/16 17:57:07 by sleleu           ###   ########.fr       */
+/*   Updated: 2022/05/16 18:22:20 by sleleu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 static int	ft_putuint(unsigned int nb)
 {
 	char	c;
-	int	len;
+	int		len;
 
 	len = 0;
 	if (nb > 9)
@@ -33,7 +33,7 @@ static int	ft_puthex(unsigned int nb, char c)
 {
 	char	*index_1;
 	char	*index_2;
-	int	len;
+	int		len;
 
 	len = 0;
 	index_1 = "0123456789abcdef";
@@ -51,10 +51,10 @@ static int	ft_puthex(unsigned int nb, char c)
 	return (len);
 }
 
-static int	ft_putaddr(unsigned long long nb)
+static int	ft_putaddr(unsigned long nb)
 {
 	char	*index;
-	int	len;
+	int		len;
 
 	len = 0;
 	index = "0123456789abcdef";
@@ -75,10 +75,10 @@ static int	ft_putaddr(unsigned long long nb)
 
 int	ft_format(const char *format, va_list args)
 {
-	int	len;
-	unsigned long long p;
+	int				len;
+	unsigned long	p;
 
-	len = 0;	
+	len = 0;
 	if (*format == 'd' || *format == 'i')
 		len = ft_putnbr_fd(va_arg(args, int), 1);
 	else if (*format == 'u')
@@ -87,9 +87,9 @@ int	ft_format(const char *format, va_list args)
 		len = ft_puthex(va_arg(args, unsigned int), *format);
 	else if (*format == 'p')
 	{
-		p = va_arg(args, unsigned long long);
-			if (p != 0)
-				len = ft_putstr_fd("0x", 1);
+		p = va_arg(args, unsigned long);
+		if (p != 0)
+			len = ft_putstr_fd("0x", 1);
 		len += ft_putaddr(p);
 	}
 	else if (*format == 'c')

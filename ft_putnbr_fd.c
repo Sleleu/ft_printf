@@ -6,7 +6,7 @@
 /*   By: sleleu <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/05 00:11:55 by sleleu            #+#    #+#             */
-/*   Updated: 2022/05/16 15:29:28 by sleleu           ###   ########.fr       */
+/*   Updated: 2022/05/16 18:12:00 by sleleu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,8 @@ int	ft_putnbr_fd(int n, int fd)
 {
 	long int	nb;
 	char		c;
-	int		len;
-	int		sign;
+	int			len;
+	int			sign;
 
 	len = 0;
 	sign = 0;
